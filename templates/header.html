@@ -1,0 +1,25 @@
+{% load static %}
+<header>
+    <div class="container-filho">
+            <a href="/">
+                <img src="{% static 'assets/img/co-roxo.png' %}" alt="Logo" width="80" draggable="false">
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/">Início</a>
+                    </li>
+                    <li>
+                        <a href="">Quem somos?</a>
+                    </li>
+                    <li>
+                        <a href="">Contato</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="{% url 'cadastro' %}" class="secondary-link">Cadastrar</a>
+                <a href="{% url 'login' %}" class="primary-link">Entrar</a>
+            </div>
+    </div>
+</header>
