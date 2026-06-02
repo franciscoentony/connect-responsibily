@@ -1,0 +1,108 @@
+:root {
+    --primary-purple: #8a2be2;
+    --purple-hover: #7b27cc;
+    --bg-gray: #f8f9fa;
+    --sidebar-width: 260px;
+    --text-dark: #333;
+    --text-light: #fff;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- Main Content --- */
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#main-header {
+    background-color: #fff;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+#main-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--primary-purple);
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+}
+
+#main-header button {
+    background-color: var(--primary-purple);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: .7rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#main-header button:hover {
+    background-color: var(--purple-hover);
+}
+
+/* --- Dashboard Grid --- */
+.dashboard-container {
+    height: 100vh;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #777;
+}
+
+.card .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-purple);
+}
+
+/* --- Footer --- */
+footer {
+    height: 7rem;
+    background-color: #000000;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer .footer-container p {
+    color: var(--tertiary);
+}

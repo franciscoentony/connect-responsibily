@@ -1,0 +1,26 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<main class="dashboard-container">
+    <section class="stats-grid">
+        <div class="card">
+            <h3>Total de Doações</h3>
+            <div class="stat-value">€50.000</div>
+        </div>
+        <div class="card">
+            <h3>Doadores Ativos</h3>
+            <div class="stat-value">1.200</div>
+        </div>
+        <div class="card">
+            <h3>Campanhas Ativas</h3>
+            <div class="stat-value">15</div>
+        </div>
+    </section>
+</main>
+{% endblock %}
