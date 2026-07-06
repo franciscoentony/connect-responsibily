@@ -1,0 +1,33 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil | Connect Responsibility{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<main style="padding: 2rem;">
+    <h2>Alterar Meus Dados</h2>
+    
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-top: 1rem; max-width: 600px;">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div style="margin-bottom: 1.5rem;">
+                {{ form.as_p }}
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 2rem;">
+                <button type="submit" style="background: #9333ea; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                    Salvar Alterações
+                </button>
+                <a href="{% url 'meu-perfil' %}" style="background: #e5e7eb; color: #374151; padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 600; text-decoration: none; display: inline-block;">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

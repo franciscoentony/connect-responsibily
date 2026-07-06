@@ -1,0 +1,84 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="profile-container">
+
+    <!-- Link para voltar ao Dashboard -->
+    <a href="{% url 'dashboard' %}" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> Voltar para o Dashboard
+    </a>
+
+    <section class="dados-perfil">
+        <!-- Card de Identificação Rápida -->
+        <section class="user-card">
+            <div class="user-avatar-wrapper">
+                <!-- Caso use um UserProfile estendido com imagem, descomente abaixo: -->
+                {% if user.foto %}
+                <img class="user-avatar" src="{{ user.foto.url }}" alt="Foto de {{ user.nome }}"">
+                {% endif %}
+            </div>
+            <div class="user-core-info">
+                <h1>{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}</h1>
+                <p><i class="fa-regular fa-envelope"></i> {{ user.email }}</p>
+                <span class="user-badge">
+                    {% if user.is_superuser %}Administrador{% else %}Operador{% endif %}
+                </span>
+            </div>
+        </section>
+    
+        <!-- Seção de Dados Detalhados -->
+        <section class="details-section">
+            <h2 class="section-title"><i class="fa-regular fa-user"></i> Informações Pessoais</h2>
+            
+            <div class="info-grid">
+                <div class="info-group">
+                    <span class="info-label">Nome Completo</span>
+                    <span class="info-value">{{ user.nome }}</span>
+                </div>
+
+                <div class="info-group">
+                    <span class="info-label">Nome de Usuário</span>
+                    <span class="info-value">{{ user.username }}</span>
+                </div>
+    
+                <div class="info-group">
+                    <span class="info-label">E-mail Cadastrado</span>
+                    <span class="info-value">{{ user.email|default:"Não informado" }}</span>
+                </div>
+    
+                <!--<div class="info-group">
+                    <span class="info-label">Primeiro Nome</span>
+                    <span class="info-value">{{ user.first_name|default:"Não informado" }}</span>
+                </div>
+    
+                <div class="info-group">
+                    <span class="info-label">Sobrenome</span>
+                    <span class="info-value">{{ user.last_name|default:"Não informado" }}</span>
+                </div>-->
+    
+                <div class="info-group">
+                    <span class="info-label">Data de Cadastro</span>
+                    <span class="info-value">{{ user.date_joined|date:"d/m/Y \à\s H:i" }}</span>
+                </div>
+    
+                <!--<div class="info-group">
+                    <span class="info-label">Último Login</span>
+                    <span class="info-value">{{ user.last_login|date:"d/m/Y \à\s H:i"|default:"Primeiro acesso" }}</span>
+                </div>-->
+            </div>
+        </section>
+    </section>
+
+    <div class="actions-row">
+        <a href="{% url 'editar-perfil' %}" class="btn-edit">
+            <i class="fa-regular fa-pen-to-square"></i> Editar Meus Dados
+        </a>
+    </div>
+
+</main>
+{% endblock %}

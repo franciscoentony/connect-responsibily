@@ -1,25 +1,37 @@
 {% load static %}
 <header>
-    <div class="container-filho">
-            <a href="/">
-                <img src="{% static 'assets/img/co-roxo.png' %}" alt="Logo" width="80" draggable="false">
+    <div class="container navbar">
+        <a href="{% url 'home' %}" class="logo">
+            <img src="{% static 'assets/img/co-roxo.png' %}" alt="logo" width="80">
+        </a>
+        <ul class="nav-menu">
+            <li><a href="#" class="nav-link">Início</a></li>
+            <li><a href="#quem-somos" class="nav-link">Quem somos?</a></li>
+            <li><a href="#como-funciona" class="nav-link">Como funciona</a></li>
+            <li><a href="#campanhas" class="nav-link">Campanhas</a></li>
+            <li><a href="#contato" class="nav-link">Contato</a></li>
+        </ul>
+        {% if user.is_authenticated %}
+        <div class="user-profile">
+            <a href="{% url 'meu-perfil' %}" class="btn-profile"">
+                <span class="user-name">Olá, <strong>{{ user.nome }}</strong></span>
+
+                {% if user.foto %}
+                <img src="{{ user.foto.url }}" alt="Foto de {{ user.nome }}"
+                    style="width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover;">
+                {% else %}
+                <div class="avatar-placeholder"
+                    style="width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #9333ea; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                    {{ user.nome|slice:":1" }}
+                </div>
+                {% endif %}
             </a>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/">Início</a>
-                    </li>
-                    <li>
-                        <a href="">Quem somos?</a>
-                    </li>
-                    <li>
-                        <a href="">Contato</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="auth-buttons">
-                <a href="{% url 'cadastro' %}" class="secondary-link">Cadastrar</a>
-                <a href="{% url 'login' %}" class="primary-link">Entrar</a>
-            </div>
+        </div>
+        {% else %}
+        <div class="nav-actions">
+            <a href="{% url 'login' %}" class="login-link">Entrar</a>
+            <a href="{% url 'cadastro' %}" class="btn btn-primary">Cadastrar</a>
+        </div>
+        {% endif %}
     </div>
 </header>

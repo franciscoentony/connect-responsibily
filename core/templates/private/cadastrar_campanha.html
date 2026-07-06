@@ -1,0 +1,43 @@
+{% extends 'private/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Cadastro de Doações</h1>
+
+<form id="doacao-form" method="post">
+    {% csrf_token %}
+    <div class="form-section">
+
+        <div>
+            <label>Título <span class="required">*</span></label>
+            {% render_field form.titulo placeholder="Título da Doação" %}
+        </div>
+
+        <div>
+            <label>Data <span class="required">*</span></label>
+            {% render_field form.data_campanha %}
+        </div>
+        
+        <div>
+            <label>Status <span class="required">*</span></label>
+            {% render_field form.status %}
+        </div>
+
+        <div>
+            <label>Local de Entrega <span class="required">*</span></label>
+            {% render_field form.fk_idlocal %}
+        </div>
+
+        <div class="form-group full">
+            <div class="form-actions">
+                <button type="submit" class="btn-form-primary">Cadastrar Doação</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

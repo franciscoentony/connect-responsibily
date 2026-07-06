@@ -1,0 +1,124 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="campaign-layout-container">
+    
+    <div class="left-content">
+        <a href="{% url 'registro-campanhas' %}" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+        </a>
+
+        <div class="carousel-container">
+            <div class="carousel-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="carousel-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="carousel-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">Sobre</h2>
+            <p class="text-content">
+                {{ campanha.descricao_completa|default:"Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many breaches, but also the leap into electronic typesetting, remaining essentially unchanged." }}
+            </p>
+        </section>
+
+        <section>
+            <h2 class="section-title">Atualizações</h2>
+            
+            <div class="update-card">
+                <div class="avatar-circle"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <h4>{{ campanha.ong.nome|default:"Nome da ONG" }}</h4>
+                        <span>há 5 meses</span>
+                    </div>
+                    <p class="card-body-text">Lorem ipsum is simply dummy text of the printing and typesetting industry.</p>
+                </div>
+            </div>
+
+            <div class="update-card">
+                <div class="avatar-circle"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <h4>{{ campanha.ong.nome|default:"Nome da ONG" }}</h4>
+                        <span>há 5 meses</span>
+                    </div>
+                    <p class="card-body-text">Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Apoiadores</h2>
+            <div class="supporter-row">
+                <div class="supporter-info">
+                    <div class="avatar-circle"></div>
+                    <div class="supporter-name">
+                        <h4>{{ campanha.ultimo_apoiador.nome|default:"Pessoa" }}</h4>
+                        <p>Contribuiu com R$ {{ campanha.ultimo_apoiador.valor|default:"100" }}</p>
+                    </div>
+                </div>
+                <div class="supporter-time">1 hora</div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Perguntas</h2>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span>Lorem ipsum is simply dummy?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div class="accordion-item expanded">
+                <div class="accordion-header">
+                    <span>Lorem ipsum is simply dummy?</span>
+                    <i class="fa-solid fa-chevron-up"></i>
+                </div>
+                <div class="accordion-content">
+                    Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="right-sidebar">
+        <div class="sticky-donation-card">
+            <h1 class="sticky-title">{{ campanha.titulo|default:"Lorem Ipsum is simply dummy text of the printing and typesetting industry." }}</h1>
+            
+            <div class="sticky-meta">
+                <div class="meta-item"><i class="fa-regular fa-user"></i> {{ campanha.ong.nome|default:"Nome da ONG" }}</div>
+                <div class="meta-item"><i class="fa-regular fa-calendar"></i> {{ campanha.data_limite|date:"d/m/Y"|default:"00/00/0000" }}</div>
+            </div>
+
+            <p class="sticky-description">
+                {{ campanha.subtitulo|default:"Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London." }}
+            </p>
+
+            <div class="progress-container">
+                <div class="progress-bar" style="width: {{ campanha.porcentagem|default:42 }}%;"></div>
+            </div>
+
+            <div class="stats-row">
+                <span>{{ campanha.porcentagem|default:42 }}% Arrecadado</span>
+                <span>Faltando {{ campanha.dias_restantes|default:18 }} dias</span>
+            </div>
+
+            <a href="#" class="btn-donate">Fazer Doação</a>
+        </div>
+    </aside>
+
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ body {
     color: var(--text-dark);
     display: flex;
     height: 100vh;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 /* --- Sidebar --- */
@@ -37,9 +37,9 @@ body {
     margin: 20px 0;
     width: 100%;
 }
-
 #sidebar nav li a {
     display: flex;
+    gap: .5rem;
     align-items: center;
     color: var(--text-light);
     padding: 15px 25px;
@@ -54,4 +54,19 @@ body {
 #sidebar nav li a i {
     margin-right: 15px;
     font-size: 1.2rem;
+}
+
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 32px;
+    border-radius: .8rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    border: none;
 }
