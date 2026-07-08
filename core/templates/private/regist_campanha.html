@@ -1,0 +1,60 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/private/listings.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="dashboard-container">
+    <h1>Registro de Campanhas</h1>
+
+    <div class="search-wrapper">
+        <input type="text" id="campaign-search" class="search-input" placeholder="Buscar campanhas...">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    </div>
+
+    <div class="campaign-grid">
+        {% for campanha in campanhas %}
+        <div class="campaign-card">
+                <div class="campaign-img"
+                    style="background-image: url('{% if campanha.imagens.exists %}{{ campanha.imagens.first.imagem.url }}{% else %}https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=600{% endif %}');">
+                </div>
+                <div class="campaign-body">
+                    <h3>{{campanha.titulo}}</h3>
+                    <p class="campaign-description">Campanha antecipada para triagem e logística de brinquedos novos e roupas para abrigos infantis estaduais.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%;"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span>90% Arrecadado</span>
+                        <span>Faltam <var>3 dias</var></span>
+                    </div>
+                    <a href="{% url 'detalhe-campanha' campanha.idcampanha %}" class="btn btn-donate">Contribuir Agora</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.getElementById('campaign-search').addEventListener('input', function (e) {
+        const searchTerm = e.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const cards = document.querySelectorAll('.campaign-card');
+
+        cards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const description = card.querySelector('.campaign-description').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

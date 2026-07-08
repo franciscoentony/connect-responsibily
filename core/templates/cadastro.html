@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
-{% block title %}Cadastro | {%endblock%}
+{% block title %}Cadastro | {% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'assets/css/cadastro.css' %}">
@@ -10,68 +11,131 @@
 {% block content %}
 <main>
     <h1>Cadastrar-se</h1>
-    <form action="" method="POST">
-        <label for="nome">Nome Completo</label>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="error-summary" style="background-color: #fff5f5; border: 1px solid #fc8181; color: #c53030; padding: 1rem; rounded-radius: 8px; margin-bottom: 1.5rem; border-radius: 8px;">
+                <strong style="display: block; margin-bottom: 0.5rem;">Por favor, corrija os seguintes erros:</strong>
+                <ul style="margin-left: 1.25rem; list-style-type: disc;">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="error-summary" style="color: red; margin-bottom: 1rem;">
+                Por favor, corrija os erros abaixo.
+            </div>
+        {% endif %}
+
+        <label for="{{ form.username.id_for_label }}">Nome de Usuário</label>
         <div class="input">
-            <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                <path
-                    d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z" />
-            </svg>
-            <input type="text" id="nome" placeholder="Nome">
+            <i class="fa-solid fa-user input-icon"></i>
+            {% render_field form.username placeholder="Nome de usuário" %}
         </div>
-        <label for="email">Email</label>
+        {% if form.username.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.username.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.nome.id_for_label }}">Nome Completo</label>
         <div class="input">
-            <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                <path
-                    d="M112 128C85.5 128 64 149.5 64 176C64 191.1 71.1 205.3 83.2 214.4L291.2 370.4C308.3 383.2 331.7 383.2 348.8 370.4L556.8 214.4C568.9 205.3 576 191.1 576 176C576 149.5 554.5 128 528 128L112 128zM64 260L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 260L377.6 408.8C343.5 434.4 296.5 434.4 262.4 408.8L64 260z" />
-            </svg>
-            <input type="email" id="email" placeholder="Email">
+            <i class="fa-solid fa-id-card input-icon"></i>
+            {% render_field form.nome placeholder="Nome" %}
         </div>
-        <label for="cpf">CPF</label>
+        {% if form.nome.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.nome.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.email.id_for_label }}">Email</label>
         <div class="input">
-            <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                <path
-                    d="M96 96C60.7 96 32 124.7 32 160L32 480C32 515.3 60.7 544 96 544L544 544C579.3 544 608 515.3 608 480L608 160C608 124.7 579.3 96 544 96L96 96zM176 352L240 352C284.2 352 320 387.8 320 432C320 440.8 312.8 448 304 448L112 448C103.2 448 96 440.8 96 432C96 387.8 131.8 352 176 352zM152 256C152 225.1 177.1 200 208 200C238.9 200 264 225.1 264 256C264 286.9 238.9 312 208 312C177.1 312 152 286.9 152 256zM392 208L504 208C517.3 208 528 218.7 528 232C528 245.3 517.3 256 504 256L392 256C378.7 256 368 245.3 368 232C368 218.7 378.7 208 392 208zM392 304L504 304C517.3 304 528 314.7 528 328C528 341.3 517.3 352 504 352L392 352C378.7 352 368 341.3 368 328C368 314.7 378.7 304 392 304z" />
-            </svg>
-            <input type="text" id="cpf" placeholder="CPF">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            {% render_field form.email placeholder="Email" %}
         </div>
-        <label for="senha">Senha</label>
+        {% if form.email.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.email.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.cidade.id_for_label }}">Cidade</label>
         <div class="input">
-            <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                <path
-                    d="M256 160L256 224L384 224L384 160C384 124.7 355.3 96 320 96C284.7 96 256 124.7 256 160zM192 224L192 160C192 89.3 249.3 32 320 32C390.7 32 448 89.3 448 160L448 224C483.3 224 512 252.7 512 288L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 288C128 252.7 156.7 224 192 224z" />
-            </svg>
-            <input type="password" id="senha" placeholder="Digite uma senha">
-            <button>
-                <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                    <path
-                        d="M320 96C239.2 96 174.5 132.8 127.4 176.6C80.6 220.1 49.3 272 34.4 307.7C31.1 315.6 31.1 324.4 34.4 332.3C49.3 368 80.6 420 127.4 463.4C174.5 507.1 239.2 544 320 544C400.8 544 465.5 507.2 512.6 463.4C559.4 419.9 590.7 368 605.6 332.3C608.9 324.4 608.9 315.6 605.6 307.7C590.7 272 559.4 220 512.6 176.6C465.5 132.9 400.8 96 320 96zM176 320C176 240.5 240.5 176 320 176C399.5 176 464 240.5 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320zM320 256C320 291.3 291.3 320 256 320C244.5 320 233.7 317 224.3 311.6C223.3 322.5 224.2 333.7 227.2 344.8C240.9 396 293.6 426.4 344.8 412.7C396 399 426.4 346.3 412.7 295.1C400.5 249.4 357.2 220.3 311.6 224.3C316.9 233.6 320 244.4 320 256z" />
-                </svg>
+            <i class="fa-solid fa-city input-icon"></i>
+            {% render_field form.cidade placeholder="Cidade" %}
+        </div>
+        {% if form.cidade.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.cidade.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.estado.id_for_label }}">Estado (Sigla)</label>
+        <div class="input">
+            <i class="fa-solid fa-map-location-dot input-icon"></i>
+            {% render_field form.estado placeholder="RN" max_length="2" %}
+        </div>
+        {% if form.estado.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.estado.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.foto.id_for_label }}">Foto de Perfil</label>
+        <div class="input">
+            <i class="fa-solid fa-image input-icon"></i>
+            {% render_field form.foto %}
+        </div>
+        {% if form.foto.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.foto.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.password1.id_for_label }}">Senha</label>
+        <div class="input">
+            <i class="fa-solid fa-lock input-icon"></i>
+            {% render_field form.password1 placeholder="Digite uma senha" %}
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Visualizar senha">
+                <i class="fa-regular fa-eye"></i>
             </button>
         </div>
-        <label for="confirmar_senha">Confirme sua Senha</label>
+        {% if form.password1.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.password1.errors.0 }}</span>
+        {% endif %}
+
+        <label for="{{ form.password2.id_for_label }}">Confirme sua Senha</label>
         <div class="input">
-            <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                <path
-                    d="M256 160L256 224L384 224L384 160C384 124.7 355.3 96 320 96C284.7 96 256 124.7 256 160zM192 224L192 160C192 89.3 249.3 32 320 32C390.7 32 448 89.3 448 160L448 224C483.3 224 512 252.7 512 288L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 288C128 252.7 156.7 224 192 224z" />
-            </svg>
-            <input type="password" id="confirmar_senha" placeholder="Repita sua senha">
-            <button>
-                <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
-                    <path
-                        d="M320 96C239.2 96 174.5 132.8 127.4 176.6C80.6 220.1 49.3 272 34.4 307.7C31.1 315.6 31.1 324.4 34.4 332.3C49.3 368 80.6 420 127.4 463.4C174.5 507.1 239.2 544 320 544C400.8 544 465.5 507.2 512.6 463.4C559.4 419.9 590.7 368 605.6 332.3C608.9 324.4 608.9 315.6 605.6 307.7C590.7 272 559.4 220 512.6 176.6C465.5 132.9 400.8 96 320 96zM176 320C176 240.5 240.5 176 320 176C399.5 176 464 240.5 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320zM320 256C320 291.3 291.3 320 256 320C244.5 320 233.7 317 224.3 311.6C223.3 322.5 224.2 333.7 227.2 344.8C240.9 396 293.6 426.4 344.8 412.7C396 399 426.4 346.3 412.7 295.1C400.5 249.4 357.2 220.3 311.6 224.3C316.9 233.6 320 244.4 320 256z" />
-                </svg>
+            <i class="fa-solid fa-lock input-icon"></i>
+            {% render_field form.password2 placeholder="Repita sua senha" %}
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Visualizar senha">
+                <i class="fa-regular fa-eye"></i>
             </button>
         </div>
+        {% if form.password2.errors %}
+            <span style="color: red; font-size: 0.8rem;">{{ form.password2.errors.0 }}</span>
+        {% endif %}
+
         <br>
         <button type="submit" class="primary-link" style="height: 3rem; cursor: pointer;">Cadastrar-se</button>
-
     </form>
 </main>
+
+{% block script %}
+<script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const inputDiv = this.closest('.input');
+            const input = inputDiv.querySelector('input');
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye';
+            }
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}

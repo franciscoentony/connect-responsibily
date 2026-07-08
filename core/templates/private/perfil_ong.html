@@ -1,0 +1,87 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/private/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="profile-container">
+    
+    <a href="{% url 'ongs' %}" class="btn-back">
+        <i class="fa-solid fa-arrow-left"></i> Voltar
+    </a>
+
+    <header class="profile-header-card">
+        <div class="avatar-wrapper">
+            {% if ong.foto %}
+                <img class="profile-avatar" src="{{ ong.foto.url }}" alt="Foto de {{ ong.nome }}">
+                {% else %}
+                <img class="profile-avatar"
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
+                    alt="Foto Padrão">
+                {% endif %}
+            <div class="profile-status"></div>
+        </div>
+
+        <div class="profile-info">
+            <div class="name-row">
+                <h1 class="profile-name">{{ ong.nome }}</h1>
+                </div>
+            
+            <div class="profile-location">
+                <i class="fa-solid fa-location-dot"></i> {{ ong.cidade }}, {{ ong.estado }}
+            </div>
+            
+            <div class="profile-meta">
+                <i class="fa-regular fa-calendar"></i> Cadastrado em {{ ong.data_cadastro|date:"d/m/Y" }}
+            </div>
+        </div>
+    </header>
+
+    <section class="profile-stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <div class="stat-details">
+                <span class="value">{{ ong.quantidade_doacoes }}</span>
+                <span class="label">Doações Realizadas</span>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="stat-details">
+                <span class="value">R$ {{ ong.valor_impacto }}</span>
+                <span class="label">Impacto Gerado</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <h2 class="section-title"><i class="fa-solid fa-timeline"></i> Histórico da ONG</h2>
+        
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-date">Atualizado</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">ONG ativo no sistema de engajamento</h4>
+                    <p class="timeline-desc">O perfil desta ONG está sincronizado com as metas da Connect Responsibility.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <span class="timeline-date">{{ ong.data_cadastro|date:"d/m/Y" }}</span>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">Ingresso na plataforma</h4>
+                    <p class="timeline-desc">O registro inicial foi concluído a partir do polo em {{ ong.cidade }}-{{ ong.estado }}.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+{% endblock %}

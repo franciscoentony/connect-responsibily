@@ -1,0 +1,585 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/private/campaign.css' %}">
+<style>
+    /* --- CORREÇÃO E BLINDAGEM DO LAYOUT DO CARROSSEL --- */
+    .carousel-container {
+        position: relative !important;
+        overflow: hidden !important;
+        background-image: none !important;
+    }
+
+    .carousel-animation-wrapper {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: inherit !important;
+        z-index: 1 !important;
+    }
+
+    .carousel-track {
+        display: flex !important;
+        width: 100% !important;
+        height: 100% !important;
+        transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        will-change: transform;
+    }
+
+    .carousel-slide {
+        min-width: 100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        flex-shrink: 0 !important;
+    }
+
+    .carousel-arrow,
+    .carousel-dots {
+        z-index: 5 !important;
+    }
+
+    .carousel-arrow {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .carousel-arrow:hover {
+        transform: scale(1.1);
+        background-color: rgba(255, 255, 255, 0.95) !important;
+        color: var(--primary-purple, #8a2be2) !important;
+    }
+
+    .carousel-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .carousel-dots .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .carousel-dots .dot.active {
+        width: 20px !important;
+        border-radius: 6px !important;
+        background-color: #ffffff !important;
+    }
+
+    /* --- FORMULÁRIOS DE ATUALIZAÇÃO (CRIAÇÃO E EDIÇÃO) --- */
+    .create-update-wrapper {
+        margin-top: 16px;
+        margin-bottom: 24px;
+        width: 100%;
+    }
+
+    .main-create-form {
+        background: #ffffff !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 1rem !important;
+        /* 16px */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    .custom-crud-form {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 1rem;
+        /* 16px */
+        padding: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .custom-crud-form textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 0.75rem;
+        /* 12px */
+        font-family: inherit;
+        font-size: 14px;
+        color: #374151;
+        resize: vertical;
+        box-sizing: border-box;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .custom-crud-form textarea:focus {
+        outline: none;
+        border-color: var(--primary-purple, #8a2be2);
+        box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.15);
+    }
+
+    .form-actions-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+    }
+
+    .custom-file-upload {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background-color: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 0.75rem;
+        /* 12px */
+        font-size: 13px;
+        font-weight: 500;
+        color: #4b5563;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #f3f4f6;
+        border-color: #9ca3af;
+    }
+
+    .custom-file-upload input[type="file"] {
+        display: none;
+    }
+
+    .btn-crud-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--primary-purple, #8a2be2);
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 0.75rem;
+        /* 12px */
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-crud-submit:hover {
+        background-color: #7223bd;
+        box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
+    }
+
+    .update-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 12px;
+        margin-bottom: 4px;
+    }
+
+    .btn-update-edit,
+    .btn-update-delete {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-update-edit {
+        background-color: #f3f4f6;
+        color: #4b5563;
+        border: 1px solid #e5e7eb;
+    }
+
+    .btn-update-edit:hover {
+        background-color: #e5e7eb;
+    }
+
+    .btn-update-delete {
+        background-color: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fee2e2;
+    }
+
+    .btn-update-delete:hover {
+        background-color: #fee2e2;
+    }
+
+    .edit-form-wrapper {
+        display: none;
+        margin-top: 14px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* --- SISTEMA DE EXPANSÃO DE ATUALIZAÇÕES --- */
+    .hidden-update-card {
+        display: none !important;
+        /* Esconde por padrão além da terceira */
+    }
+
+    .hidden-update-card.show-expanded {
+        display: flex !important;
+        /* Força o flexbox original ao expandir */
+        animation: fadeIn 0.35s ease-in-out;
+    }
+
+    .btn-show-more-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .btn-toggle-updates {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: transparent;
+        color: var(--primary-purple, #8a2be2);
+        border: 2px solid var(--primary-purple, #8a2be2);
+        padding: 10px 24px;
+        border-radius: 0.75rem;
+        /* 12px */
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-toggle-updates:hover {
+        background-color: var(--primary-purple, #8a2be2);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(138, 43, 226, 0.15);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="campaign-layout-container">
+
+    <div class="left-content">
+        <a href="{% url 'registro-campanhas' %}" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+        </a>
+
+        <div class="carousel-container">
+            <div class="carousel-animation-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    {% if campanha.imagens.exists %}
+                    {% for img in campanha.imagens.all %}
+                    <div class="carousel-slide" style="background-image: url('{{ img.imagem.url }}');"></div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="carousel-slide"
+                        style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=600');">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="carousel-arrow prev-arrow"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="carousel-arrow next-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+
+            <div class="carousel-dots">
+                {% if campanha.imagens.exists %}
+                {% for img in campanha.imagens.all %}
+                <div class="dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></div>
+                {% endfor %}
+                {% else %}
+                <div class="dot active" data-index="0"></div>
+                {% endif %}
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">Sobre</h2>
+            <p class="text-content">
+                {{ campanha.descricao|default:"" }}
+            </p>
+        </section>
+
+        <section id="updatesSection">
+            <h2 class="section-title">Atualizações</h2>
+
+            {% if request.user == campanha.fk_iddoador %}
+            <div class="create-update-wrapper">
+                <form action="{% url 'adicionar-atualizacao' campanha.pk %}" method="POST" enctype="multipart/form-data"
+                    class="custom-crud-form main-create-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea name="texto" placeholder="Escreva uma atualização sobre a campanha..."
+                            required></textarea>
+                    </div>
+
+                    <div class="form-actions-row">
+                        <label class="custom-file-upload">
+                            <input type="file" name="imagem" accept="image/*" id="main-update-file">
+                            <i class="fa-solid fa-image"></i> <span id="main-file-label">Adicionar Foto</span>
+                        </label>
+
+                        <button type="submit" class="btn-crud-submit">
+                            <i class="fa-solid fa-paper-plane"></i> Publicar Atualização
+                        </button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+
+            {% for atualizacao in campanha.atualizacoes.all|dictsortreversed:"data_atualizacao" %}
+            <div class="update-card {% if forloop.counter > 3 %}hidden-update-card{% endif %}"
+                style="flex-direction: column; align-items: flex-start; gap: 10px;">
+
+                <div style="display: flex; gap: 15px; width: 100%;">
+
+                    <div class="avatar-circle"
+                        style="width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: #f3f4f6; display: flex; align-items: center; justify-content: center;">
+                        {% if campanha.fk_iddoador.foto %}
+                        <img src="{{ campanha.fk_iddoador.foto.url }}"
+                            alt="Foto de {{ campanha.fk_iddoador.username }}"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                        {% elif campanha.fk_iddoador.logo %}
+                        <img src="{{ campanha.fk_iddoador.logo.url }}" alt="Logo de {{ campanha.fk_iddoador.username }}"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                        <i class="fa-solid fa-user" style="color: #9ca3af; font-size: 16px;"></i>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-content" style="flex: 1;">
+                        <div class="card-meta">
+                            <h4>{{ campanha.fk_iddoador.username }}</h4>
+                            <span>{{ atualizacao.data_atualizacao|date:"d/m/Y" }}</span>
+                        </div>
+                        <p class="card-body-text">{{ atualizacao.texto }}</p>
+                        {% if atualizacao.imagem %}
+                        <img src="{{ atualizacao.imagem.url }}" class="update-img"
+                            style="max-width: 100%; border-radius: 12px; margin-top: 8px;">
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if request.user == campanha.fk_iddoador %}
+                <div class="update-actions">
+                    <button class="btn-update-edit" onclick="toggleEditForm('{{ atualizacao.pk }}')">
+                        <i class="fa-solid fa-pen-to-square"></i> Editar
+                    </button>
+                    <a href="{% url 'remover-atualizacao' atualizacao.pk %}" class="btn-update-delete">
+                        <i class="fa-solid fa-trash"></i> Remover
+                    </a>
+                </div>
+
+                <div id="edit-form-{{ atualizacao.pk }}" class="edit-form-wrapper" style="width: 100%;">
+                    <form action="{% url 'editar-atualizacao' atualizacao.pk %}" method="POST"
+                        enctype="multipart/form-data" class="custom-crud-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea name="texto" placeholder="Escreva a atualização..."
+                                required>{{ atualizacao.texto }}</textarea>
+                        </div>
+
+                        <div class="form-actions-row">
+                            <label class="custom-file-upload">
+                                <input type="file" name="imagem" accept="image/*">
+                                <i class="fa-solid fa-image"></i> Alterar Imagem
+                            </label>
+
+                            <button type="submit" class="btn-crud-submit">
+                                <i class="fa-solid fa-floppy-disk"></i> Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="text-content">Nenhuma atualização publicada ainda.</p>
+            {% endfor %}
+
+            {% if campanha.atualizacoes.all|length > 3 %}
+            <div class="btn-show-more-wrapper">
+                <button id="btn-toggle-updates" class="btn-toggle-updates">
+                    <i class="fa-solid fa-chevron-down"></i> Ver todas as atualizações
+                </button>
+            </div>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2 class="section-title">Apoiadores</h2>
+            <div class="supporter-row">
+                <div class="supporter-info">
+                    <div class="avatar-circle"></div>
+                    <div class="supporter-name">
+                        <h4>{{ campanha.ultimo_apoiador.nome|default:"Pessoa" }}</h4>
+                        <p>Contribuiu com R$ {{ campanha.ultimo_apoiador.valor|default:"100" }}</p>
+                    </div>
+                </div>
+                <div class="supporter-time">1 hora</div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Perguntas</h2>
+            <details class="accordion-item">
+                <summary class="accordion-header">
+                    <span>Lorem ipsum is simply dummy?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </summary>
+                <p class="accordion-content">
+                    Lorem ipsum is simply dummy text of the printing and typesetting industry.
+                </p>
+            </details>
+        </section>
+    </div>
+
+    <aside class="right-sidebar">
+        <div class="sticky-donation-card">
+            <h1 class="sticky-title">{{ campanha.titulo|default:"" }}</h1>
+
+            <div class="sticky-meta">
+                <div class="meta-item"><i class="fa-regular fa-user"></i> {{ campanha.fk_iddoador.username }}</div>
+                <div class="meta-item"><i class="fa-regular fa-calendar"></i> {{ campanha.data_campanha|date:"d/m/Y" }}
+                </div>
+            </div>
+
+            <p class="sticky-description">
+                {{ campanha.subtitulo|default:"" }}
+            </p>
+
+            <div class="progress-container">
+                <div class="progress-bar" style="width: {{ campanha.porcentagem|default:42 }}%;"></div>
+            </div>
+
+            <div class="stats-row">
+                <span>{{ campanha.porcentagem|default:42 }}% Arrecadado</span>
+                <span>Status: {{ campanha.status|default:"Ativo" }}</span>
+            </div>
+
+            <a href="#" class="btn-donate">Fazer Doação</a>
+        </div>
+    </aside>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function toggleEditForm(id) {
+        const form = document.getElementById('edit-form-' + id);
+        if (form.style.display === 'block') {
+            form.style.display = 'none';
+        } else {
+            form.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- LOGICA DO CARROSSEL ---
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.carousel-dots .dot');
+        const prevBtn = document.querySelector('.prev-arrow');
+        const nextBtn = document.querySelector('.next-arrow');
+
+        let currentIndex = 0;
+        const totalSlides = dots.length;
+
+        if (totalSlides <= 1) {
+            if (prevBtn) prevBtn.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+        } else {
+            function updateSlider(index) {
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+
+                currentIndex = index;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[currentIndex].classList.add('active');
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    updateSlider(currentIndex - 1);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    updateSlider(currentIndex + 1);
+                });
+            }
+
+            dots.forEach((dot) => {
+                dot.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const targetIndex = parseInt(this.getAttribute('data-index'));
+                    updateSlider(targetIndex);
+                });
+            });
+        }
+
+        // --- LABEL DO UPLOAD DE ARQUIVO ---
+        const fileInput = document.getElementById('main-update-file');
+        const fileLabel = document.getElementById('main-file-label');
+
+        if (fileInput && fileLabel) {
+            fileInput.addEventListener('change', function () {
+                if (this.files && this.files.length > 0) {
+                    fileLabel.textContent = this.files[0].name;
+                } else {
+                    fileLabel.textContent = "Adicionar Foto";
+                }
+            });
+        }
+
+        // --- EXPANSORE DE ATUALIZAÇÕES ---
+        const btnToggleUpdates = document.getElementById('btn-toggle-updates');
+        if (btnToggleUpdates) {
+            btnToggleUpdates.addEventListener('click', function () {
+                const hiddenCards = document.querySelectorAll('.hidden-update-card');
+                const isExpanded = btnToggleUpdates.classList.toggle('expanded');
+
+                hiddenCards.forEach(card => {
+                    card.classList.toggle('show-expanded', isExpanded);
+                });
+
+                if (isExpanded) {
+                    btnToggleUpdates.innerHTML = '<i class="fa-solid fa-chevron-up"></i> Mostrar menos';
+                } else {
+                    btnToggleUpdates.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Ver todas as atualizações';
+                    // Scroll suave opcional de volta ao topo da seção de atualizações ao fechar
+                    document.getElementById('updatesSection').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

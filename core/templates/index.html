@@ -1,85 +1,179 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block style %}
-<link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
 {% endblock %}
 
 {% block content %}
-<main>
-    <section class="banner-section">
-        <div class="container-section">
-            <div class="textos-banner">
-                <h1>Venha ajudar alguém!</h1>
-                <p>Já pensou o quão melhor você pode tornar a vida de alguém? Não perca tempo e faça essa contribuição.
-                </p>
-            </div>
-            <div>
-                <a href="{% url 'cadastro' %}" class="white-link">Cadastrar</a>
-                <a href="" class="secondary-link" style="color: white;">Saiba Mais</a>
-            </div>
+<section class="hero">
+    <div class="container hero-content">
+        <h1>Venha ajudar alguém!</h1>
+        <p>Já pensou o quão melhor você pode tornar a vida de alguém? Não perca tempo e faça essa contribuição.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'cadastro' %}" class="btn btn-white">Cadastrar</a>
+            <a href="#quem-somos" class="btn btn-outline">Saiba Mais</a>
         </div>
-    </section>
-    <section class="section-about">
-        <div class="container-section">
-            <h1>Quem somos?</h1>
-            <div class="card">
-                <div class="imagem">
-                    <img src="https://portalwp.s3.amazonaws.com/wp-content/uploads/20191030111730/Unisocial-Filipinas1.jpg"
-                        alt="foto" width="800">
-                </div>
-                <div class="textos-about">
-                    <p>Desde sempre instituições de caridade ou pessoas com o objetivo de doar alguns perdences acabam
-                        não sabendo como chegarem a pessoa final (donatário). A Connect Responsibility é uma startup sem
-                        fins lucrativos que nasceu da necessidade de facilitar conexão entre doadores e as pessoas
-                        carentes.</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti asperiores inventore quisquam
-                        praesentium reprehenderit nesciunt. Sed nobis cum magni, temporibus at iste velit voluptas
-                        consequuntur incidunt veniam autem recusandae. Corrupti!</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti asperiores inventore quisquam
-                        praesentium reprehenderit nesciunt. Sed nobis cum magni, temporibus at iste velit voluptas
-                        consequuntur incidunt veniam autem recusandae. Corrupti!</p>
-                </div>
+    </div>
+</section>
+
+<section class="section" id="quem-somos">
+    <div class="container">
+        <h2 class="section-title">Quem somos?</h2>
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=800"
+                    alt="Ação Social">
+            </div>
+            <div class="about-text">
+                <p>Desde sempre instituições de caridade ou pessoas com o objetivo de doar alguns pertencem acabam não
+                    sabendo como chegarem a pessoa final (donatário). A Connect Responsibility é uma startup sem fins
+                    lucrativos que nasceu da necessidade de facilitar conexão entre doadores e as pessoas carentes.</p>
+                <p>Através de uma plataforma inteligente e auditada, removemos as barreiras burocráticas e a falta de
+                    informação, permitindo que a ajuda certa chegue ao lugar exato no momento em que ela é mais
+                    necessária.</p>
+                <p>Nossa missão é transformar a intenção de ajudar em impacto real e mensurável, construindo pontes
+                    sólidas de solidariedade por todo o país.</p>
             </div>
         </div>
-    </section>
-    <!--<section>
-        <div class="container-section">
-            <h1>Perguntas Frequentes</h1>
-            <details>
-                <summary>Para quem é a nossa aplicação?</summary>
-                <p>Para todos que desejam doar coisas com o objetivo de ajudar pessoas carentes. Podem ser: Escolas,
-                    Instituições, Pessoas Físicas e Jurídicas, crianças com o a compania dos pais...</p>
-            </details>
-            <details>
-                <summary>Qual o preço?</summary>
-                <p>É gratis! Como informado, nosso projeto é 100% sem fins lucrativos.</p>
-            </details>
+    </div>
+</section>
+
+<section class="section" id="como-funciona" style="background-color: var(--bg-white);">
+    <div class="container">
+        <h2 class="section-title">Como funciona o ecossistema?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-user-plus"></i></div>
+                <h3>1. Crie seu Perfil</h3>
+                <p>Seja como doador individual, empresa ou instituição beneficiada. O cadastro é rápido, seguro e
+                    unificado.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                <h3>2. Identifique Demandas</h3>
+                <p>Navegue por mapas de calor e listas de necessidades reais auditadas perto de você ou em regiões
+                    críticas.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <h3>3. Conexão Direta</h3>
+                <p>Escolha o destino da sua doação. Nossa tecnologia cuida dos matches logísticos e da prestação de
+                    contas.</p>
+            </div>
         </div>
-    </section>-->
-    <section class="section-contact">
-        <div class="container-section">
-            <h1>Quer entrar em contato?</h1>
-            <form action="" method="POST">
-                <label for="nome">Nome Completo</label>
-                <div class="input">
-                    <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z"/></svg>
-                    <input type="text" id="nome" placeholder="Nome">
+    </div>
+</section>
+
+<section class="section metrics">
+    <div class="container metrics-grid">
+        <div class="metric-item">
+            <h2 id="count1">12K</h2>
+            <p>Doadores Ativos</p>
+        </div>
+        <div class="metric-item">
+            <h2 id="count2">450</h2>
+            <p>Instituições Atendidas</p>
+        </div>
+        <div class="metric-item">
+            <h2 id="count3">85T</h2>
+            <p>Alimentos & Suprimentos</p>
+        </div>
+        <div class="metric-item">
+            <h2 id="count4">1.5M</h2>
+            <p>Vidas Impactadas</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="campanhas">
+    <div class="container">
+        <h2 class="section-title">Campanhas em Destaque</h2>
+        <div class="campaigns-grid">
+            <div class="campaign-card">
+                <div class="campaign-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=600');">
                 </div>
-                <label for="email">Email</label>
-                <div class="input">
-                    <svg style="width: 1.5rem; height: 1.5rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M112 128C85.5 128 64 149.5 64 176C64 191.1 71.1 205.3 83.2 214.4L291.2 370.4C308.3 383.2 331.7 383.2 348.8 370.4L556.8 214.4C568.9 205.3 576 191.1 576 176C576 149.5 554.5 128 528 128L112 128zM64 260L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 260L377.6 408.8C343.5 434.4 296.5 434.4 262.4 408.8L64 260z"/></svg>
-                    <input type="email" id="email" placeholder="Email">
+                <div class="campaign-body">
+                    <h3>Prato Cheio no Inverno</h3>
+                    <p>Arrecadação de cestas básicas para comunidades vulneráveis enfrentarem o período de baixas
+                        temperaturas.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span>75% Arrecadado</span>
+                        <span>Faltam <var>12 dias</var></span>
+                    </div>
+                    <a href="#" class="btn btn-primary">Contribuir Agora</a>
                 </div>
-                <label for="assunto">Assunto</label>
-                <div>
-                    <textarea name="assunto" id="assunto" class="textarea" placeholder="Mensagem..."></textarea>
+            </div>
+            <div class="campaign-card">
+                <div class="campaign-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=600');">
                 </div>
-                <br>
-                <button type="submit" class="primary-link" style="height: 3rem; cursor: pointer;">Enviar</button>
+                <div class="campaign-body">
+                    <h3>Educar para Transformar</h3>
+                    <p>Distribuição de kits escolares completos e tablets recondicionados para estudantes da rede
+                        pública.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 42%;"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span>42% Arrecadado</span>
+                        <span>Faltam <var>28 dias</var></span>
+                    </div>
+                    <a href="#" class="btn btn-primary">Contribuir Agora</a>
+                </div>
+            </div>
+            <div class="campaign-card">
+                <div class="campaign-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=600');">
+                </div>
+                <div class="campaign-body">
+                    <h3>Natal para Todos</h3>
+                    <p>Campanha antecipada para triagem e logística de brinquedos novos e roupas para abrigos infantis
+                        estaduais.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%;"></div>
+                    </div>
+                    <div class="campaign-stats">
+                        <span>90% Arrecadado</span>
+                        <span>Faltam <var>3 dias</var></span>
+                    </div>
+                    <a href="#" class="btn btn-primary">Contribuir Agora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="contato">
+    <div class="container">
+        <h2 class="section-title">Quer entrar em contato?</h2>
+        <div class="contact-form-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="name" class="form-control" placeholder="Nome" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email" class="form-control" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message">Assunto</label>
+                    <textarea id="message" class="form-control" placeholder="Mensagem..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
         </div>
-    </section>
-</main>
+    </div>
+</section>
 {% endblock %}

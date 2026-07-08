@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+import pymysql
+import os
+
+pymysql.install_as_MySQLdb()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'livereload',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'core',
 ]
 
@@ -77,8 +83,12 @@ WSGI_APPLICATION = 'projeto_cr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sistema_doacoes',
+        'USER': 'root',
+        'PASSWORD': 'Fr@nent1',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -120,3 +130,13 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = ['static']
+
+AUTH_USER_MODEL = 'core.Usuario'
+
+# Rota pública usada no navegador
+MEDIA_URL = '/media/'
+
+# Caminho físico no seu computador onde os arquivos serão armazenados
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = 'login'

@@ -1,0 +1,249 @@
+/* --- Container Geral do Painel --- */
+.dashboard-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: var(--bg-gray);
+    min-height: calc(100vh - 70px);
+}
+
+/* --- Cards Estilizados Gerais --- */
+.dashboard-container .card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* --- Grid de Estatísticas Rápidas (KPIs) --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-card .card-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 0.75rem;
+    background-color: rgba(138, 43, 226, 0.1);
+    color: var(--primary-purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-card .card-info h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.stat-card .card-info .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-top: 4px;
+}
+
+/* --- Grid de Gráficos --- */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 1024px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chart-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.chart-body {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* --- Seção de Campanhas --- */
+.campaigns-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h2 {
+    font-size: 1.4rem;
+    color: #1f2937;
+    margin: 0;
+}
+
+.btn-new-campaign {
+    background-color: var(--primary-purple);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-new-campaign:hover {
+    background-color: var(--purple-hover);
+}
+
+/* Grid de Listagem das Campanhas */
+.campaigns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.campaign-card {
+    padding: 0 !important; /* Reseta o padding do card padrão */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.campaign-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.campaign-image {
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f3f4f6;
+}
+
+.campaign-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+}
+
+.campaign-tag {
+    align-self: flex-start;
+    background-color: rgba(138, 43, 226, 0.08);
+    color: var(--primary-purple);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.campaign-content h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #1f2937;
+}
+
+.campaign-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+/* Componente de Barra de Progresso */
+.progress-container {
+    margin-top: auto; /* Força o progresso a ficar na base do conteúdo */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.progress-bar-wrapper {
+    background-color: #e5e7eb;
+    height: 8px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background-color: var(--primary-purple);
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.5s ease-out;
+}
+
+.progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+/* Rodapé do Card */
+.campaign-footer {
+    border-top: 1px solid #f3f4f6;
+    padding: 14px 20px;
+    background-color: #fafafa;
+}
+
+.btn-manage {
+    color: var(--primary-purple) !important;
+    background: transparent !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-manage:hover {
+    color: var(--purple-hover) !important;
+}
+
+/* Estado Vazio (Sem campanhas) */
+.empty-state-box {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #9ca3af;
+}
+
+.empty-state-box i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,85 @@
+{% extends 'private/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/private/listings.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<main class="dashboard-container">
+
+    <h1>Doadores Cadastrados</h1>
+
+    <div class="search-wrapper">
+        <input type="text" id="ong-search" class="search-input" placeholder="Buscar Doador...">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    </div>
+
+    <div class="donor-grid">
+
+        {% for doador in doadores %}
+        <div class="donor-card">
+            <span class="donor-badge">{{ doador.tipo_plano }}</span>
+
+            <div class="avatar-container">
+                {% if doador.foto %}
+                <img class="donor-avatar" src="{{ doador.foto.url }}" alt="Foto de {{ doador.nome }}">
+                {% else %}
+                <img class="donor-avatar"
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
+                    alt="Foto Padrão">
+                {% endif %}
+
+                <div class="status-indicator"></div>
+            </div>
+
+            <h3 class="donor-name">{{ doador.nome }}</h3>
+
+            <div class="donor-location">
+                <i class="fa-solid fa-location-dot"></i> {{ doador.cidade }}, {{ doador.estado }}
+            </div>
+
+            <div class="donor-stats">
+                <div class="stat-box">
+                    <span class="stat-value">{{ doador.quantidade_campanhas }}</span>
+                    <span class="stat-label">Doações</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value">{{ doador.valor_impacto }}</span>
+                    <span class="stat-label">Impacto (R$)</span>
+                </div>
+            </div>
+
+            <a href="{% url 'perfil-doador' doador.id %}" class="btn-action" style="text-decoration: none;">
+                Ver Linha do Tempo <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+        {% empty %}
+        <p class="no-donors">Nenhum doador cadastrado no momento.</p>
+        {% endfor %}
+
+    </div>
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.getElementById('ong-search').addEventListener('input', function (e) {
+        const searchTerm = e.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const cards = document.querySelectorAll('.donor-card');
+
+        cards.forEach(card => {
+            const name = card.querySelector('.donor-name').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const location = card.querySelector('.donor-location').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+            if (name.includes(searchTerm) || location.includes(searchTerm)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}
