@@ -10,12 +10,16 @@ urlpatterns = [
     
     path('dashboard/registro-campanhas/', ListarCampanhas, name="registro-campanhas"),
     path('dashboard/registro-campanhas/<int:id>', DetalheCampanha, name='detalhe-campanha'),
-    path('dashboard/cadastrar-campanha/', CadastrarCampanha, name="cadastrar-companha"),
+    path('dashboard/cadastrar-campanha/', CadastrarCampanha, name="cadastrar-campanha"),
     path('dashboard/editar-companha/<int:id>', EditarCampanha, name="editar-campanha"),
     path('dashboard/remover-campanha/<int:id>', RemoverCampanha, name="remover-campanha"),
     
+    path('dashboard/ongs/', ListarOngs, name="ongs"),
+    path('dashboard/ongs/<int:id>/', PerfilOng, name='perfil-ong'),
+    
     path('dashboard/doadores/', ListarDoadores, name="doadores"),
     path('dashboard/doador/<int:id>/', PerfilDoador, name='perfil-doador'),
+    
     path('logout/', logout, name='logout'),
     
     path('dashboard/meu-perfil/', MeuPerfil, name="meu-perfil"),

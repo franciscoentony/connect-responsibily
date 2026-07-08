@@ -1,14 +1,28 @@
-*{
+:root {
+    --primary-purple: #8a2be2;
+    --purple-hover: #7b27cc;
+    --bg-gray: #f8f9fa;
+    --sidebar-width: 260px;
+    --text-dark: #333;
+    --text-light: #fff;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease-in-out;
+}
+
+* {
+    box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+
 body {
     margin: 0;
     padding: 0;
     background-color: var(--bg-gray);
     color: var(--text-dark);
     display: flex;
-    height: 100vh;
-    /*overflow: hidden;*/
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* --- Sidebar --- */
@@ -18,7 +32,9 @@ body {
     color: var(--text-light);
     display: flex;
     flex-direction: column;
-    transition: width 0.3s ease;
+    flex-shrink: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 100;
 }
 
 #sidebar .logo-section {
@@ -37,6 +53,7 @@ body {
     margin: 20px 0;
     width: 100%;
 }
+
 #sidebar nav li a {
     display: flex;
     gap: .5rem;
@@ -51,11 +68,77 @@ body {
     background-color: var(--purple-hover);
 }
 
-#sidebar nav li a i {
+#sidebar nav li a i,
+#sidebar nav li a svg {
     margin-right: 15px;
     font-size: 1.2rem;
+    flex-shrink: 0;
 }
 
+/* --- Main Content Layout --- */
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; /* Evita que o flex-item estoure o contêiner */
+    min-height: 100vh;
+}
+
+#main-header {
+    background-color: #fff;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    height: 80px;
+}
+
+#main-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--primary-purple);
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#main-header button,
+#main-header a {
+    background-color: var(--primary-purple);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: .7rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    outline: none;
+    text-decoration: none;
+}
+
+#main-header .header-actions .user-profile .btn-profile {
+    background: transparent;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    padding: 8px 15px;
+}
+
+#main-header .header-actions .user-profile .btn-profile:hover {
+    background-color: #eaeaea;
+}
+
+#main-header button:hover {
+    background-color: var(--purple-hover);
+}
 
 .btn {
     display: inline-flex;
@@ -69,4 +152,106 @@ body {
     transition: var(--transition);
     text-decoration: none;
     border: none;
+}
+
+/*--- Footer ---*/
+footer {
+    height: 7rem;
+    background-color: #000000;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+}
+
+footer .footer-container p {
+    color: var(--tertiary);
+    margin: 0;
+}
+
+/* --- Mobile Responsiveness and Hamburger --- */
+.toggle-sidebar-btn {
+    display: none;
+}
+
+.sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 990;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.sidebar-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        position: fixed;
+        top: 0;
+        left: -260px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease-in-out;
+    }
+
+    #sidebar.active {
+        left: 0;
+    }
+
+    .toggle-sidebar-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 50%;
+        color: var(--primary-purple);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .toggle-sidebar-btn:hover {
+        background: #e5e7eb;
+    }
+
+    #main-header {
+        padding: 15px 20px;
+    }
+
+    #main-header h1 {
+        font-size: 1.4rem;
+    }
+
+    #main-header .header-actions {
+        gap: 10px;
+    }
+
+    #main-header button,
+    #main-header a {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #main-header .user-name {
+        display: none;
+    }
+
+    #main-header #addCampaign {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
 }

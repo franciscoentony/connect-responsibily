@@ -14,6 +14,7 @@ class Campanha(models.Model):
     idcampanha = models.AutoField(primary_key=True)
     foto = models.ImageField(upload_to='campanhas/fotos/', blank=True, null=True, verbose_name="Foto de Perfil")
     titulo = models.CharField(max_length=100, null=False, default='')
+    subtitulo = models.TextField(null=False, default='')
     descricao = models.TextField(null=False, default='')
     data_campanha = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=20, blank=True, null=True)
@@ -23,6 +24,15 @@ class Campanha(models.Model):
     class Meta:
         managed = True
         db_table = 'Campanha'
+
+class ImagemCampanha(models.Model):
+    idimagem = models.AutoField(primary_key=True)
+    fk_idcampanha = models.ForeignKey(Campanha, on_delete=models.CASCADE, related_name='imagens', db_column='fk_idcampanha')
+    imagem = models.ImageField(upload_to='campanhas/galeria/')
+
+    class Meta:
+        managed = True
+        db_table = 'ImagemCampanha'
 
 class Usuario(AbstractUser):
     OPCOES_PLANO = [
@@ -56,7 +66,6 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f"{self.nome} ({self.tipo_plano})"
     
-
 
 class Item(models.Model):
     iditem = models.AutoField(primary_key=True)
@@ -130,7 +139,6 @@ class AuthUserGroups(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
     class Meta:
         managed = False
         db_table = 'auth_user_groups'

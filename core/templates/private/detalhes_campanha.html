@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/private/campaign.css' %}">
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
             <i class="fa-solid fa-arrow-left"></i> Voltar
         </a>
 
-        <div class="carousel-container">
+        <div class="carousel-container" style="background-image: url('{% if campanha.imagens.exists %} {{campanha.imagens.first.imagem.url}} {% else %}https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=600{% endif %}'); background-position: center; background-repeat: no-repeat; background-size: cover;">
             <div class="carousel-arrow"><i class="fa-solid fa-chevron-left"></i></div>
             <div class="carousel-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             <div class="carousel-dots">
@@ -28,7 +28,7 @@
         <section>
             <h2 class="section-title">Sobre</h2>
             <p class="text-content">
-                {{ campanha.descricao_completa|default:"Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many breaches, but also the leap into electronic typesetting, remaining essentially unchanged." }}
+                {{ campanha.descricao|default:"Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many breaches, but also the leap into electronic typesetting, remaining essentially unchanged." }}
             </p>
         </section>
 
@@ -75,22 +75,25 @@
         <section>
             <h2 class="section-title">Perguntas</h2>
             
-            <div class="accordion-item">
-                <div class="accordion-header">
+            <details class="accordion-item">
+                <summary class="accordion-header">
                     <span>Lorem ipsum is simply dummy?</span>
                     <i class="fa-solid fa-chevron-down"></i>
-                </div>
-            </div>
+                </summary>
+                <p class="accordion-content">
+                    Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.
+                </p>
+            </details>
 
-            <div class="accordion-item expanded">
-                <div class="accordion-header">
+            <details class="accordion-item expanded">
+                <summary class="accordion-header">
                     <span>Lorem ipsum is simply dummy?</span>
                     <i class="fa-solid fa-chevron-up"></i>
-                </div>
-                <div class="accordion-content">
+                </summary>
+                <p class="accordion-content">
                     Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.
-                </div>
-            </div>
+                </p>
+            </details>
         </section>
     </div>
 

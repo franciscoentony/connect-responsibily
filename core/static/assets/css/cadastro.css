@@ -19,11 +19,14 @@ main {
 }
 
 main form {
-    width: 30rem;
+    width: 100%;
+    max-width: 30rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: .5rem;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .form-group {
@@ -59,22 +62,51 @@ main form {
     background-color: var(--bg-white);
 }
 
-.input svg {
+.input-icon {
     position: absolute;
-    left: 10px;
-    /*right: 10px;*/
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
+    color: #9ca3af;
+    font-size: 1.1rem;
+    pointer-events: none;
+    z-index: 10;
 }
+
 .input input {
     border: none;
     background: none;
-    width: 90%;
+    width: 100%;
     height: 100%;
-    padding: 0 0 0  40px;
-    font-size: 12pt;
+    padding: 0 45px 0 45px;
+    font-size: 1rem;
     outline: none;
+    box-sizing: border-box;
+}
+
+/* Custom styling for file input in sign up */
+.input input[type="file"] {
+    padding: 8px 10px 8px 45px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.input input[type="file"]::-webkit-file-upload-button {
+    background: var(--primary);
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    padding: 6px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.input input[type="file"]::-webkit-file-upload-button:hover {
+    background: var(--primary-light);
 }
 
 .input button {
@@ -83,11 +115,17 @@ main form {
     cursor: pointer;
     display: flex;
     align-items: center;
-    opacity: 40%;
+    color: #9ca3af;
     position: absolute;
-    right: 20px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.input button:hover {
+    color: var(--primary);
 }
 
 textarea {

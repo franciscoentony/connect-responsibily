@@ -3,41 +3,109 @@
 {% load static %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'assets/css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/private/forms.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>Cadastro de Doações</h1>
+<div class="form-container">
+    <h1 class="form-title">Cadastro de Doações</h1>
 
-<form id="doacao-form" method="post">
-    {% csrf_token %}
-    <div class="form-section">
+    <form id="doacao-form" method="post" enctype="multipart/form-data" class="form-card">
+        {% csrf_token %}
+        <div class="form-grid">
 
-        <div>
-            <label>Título <span class="required">*</span></label>
-            {% render_field form.titulo placeholder="Título da Doação" %}
-        </div>
+            <div class="form-group full-width">
+                <label>Título <span class="required">*</span></label>
+                {% render_field form.titulo class="form-input" placeholder="Título da Doação" %}
+            </div>
 
-        <div>
-            <label>Data <span class="required">*</span></label>
-            {% render_field form.data_campanha %}
-        </div>
-        
-        <div>
-            <label>Status <span class="required">*</span></label>
-            {% render_field form.status %}
-        </div>
+            <div class="form-group full-width">
+                <label>Subtítulo <span class="required">*</span></label>
+                {% render_field form.subtitulo class="form-input" placeholder="Breve subtítulo descritivo" %}
+            </div>
 
-        <div>
-            <label>Local de Entrega <span class="required">*</span></label>
-            {% render_field form.fk_idlocal %}
-        </div>
+            <div class="form-group full-width">
+                <label>Descrição <span class="required">*</span></label>
+                {% render_field form.descricao class="form-input" placeholder="Escreva detalhadamente sobre a campanha..." %}
+            </div>
 
-        <div class="form-group full">
-            <div class="form-actions">
+            <div class="form-group">
+                <label>Data Limite <span class="required">*</span></label>
+                {% render_field form.data_campanha class="form-input" type="date" %}
+            </div>
+            
+            <div class="form-group">
+                <label>Status <span class="required">*</span></label>
+                {% render_field form.status class="form-input" %}
+            </div>
+
+            <div class="form-group full-width">
+                <label>Local de Entrega <span class="required">*</span></label>
+                {% render_field form.fk_idlocal class="form-input" %}
+            </div>
+
+            <div class="form-group full-width">
+                <label>Imagens da Galeria <span class="required">*</span></label>
+                <div class="file-dropzone">
+                    <i class="fa-regular fa-images"></i>
+                    <p>Clique ou arraste as imagens aqui para fazer o upload</p>
+                    <input type="file" id="gallery-input" name="imagens_galeria" multiple accept="image/*">
+                </div>
+                <div id="preview-container" class="preview-grid"></div>
+            </div>
+
+            <div class="form-group full-width form-actions">
                 <button type="submit" class="btn-form-primary">Cadastrar Doação</button>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const fileInput = document.getElementById('gallery-input');
+    const previewContainer = document.getElementById('preview-container');
+    
+    let activeFiles = [];
+
+    fileInput.addEventListener('change', function (e) {
+        const newFiles = Array.from(e.target.files);
+        activeFiles = [...activeFiles, ...newFiles];
+        renderPreviews();
+    });
+
+    function renderPreviews() {
+        previewContainer.innerHTML = '';
+        const dataTransfer = new DataTransfer();
+
+        activeFiles.forEach((file, index) => {
+            dataTransfer.items.add(file);
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                previewItem.innerHTML = `
+                    <img src="${e.target.result}" alt="${file.name}">
+                    <button type="button" class="preview-remove" data-index="${index}">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+
+                previewItem.querySelector('.preview-remove').addEventListener('click', function () {
+                    activeFiles.splice(index, 1);
+                    renderPreviews();
+                });
+
+                previewContainer.appendChild(previewItem);
+            };
+            
+            reader.readAsDataURL(file);
+        });
+
+        fileInput.files = dataTransfer.files;
+    }
+</script>
 {% endblock %}

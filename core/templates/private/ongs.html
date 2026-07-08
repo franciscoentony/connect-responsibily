@@ -7,10 +7,9 @@
 
 
 {% block content %}
-
 <main class="dashboard-container">
 
-    <h1>Doadores Cadastrados</h1>
+    <h1>ONGs Cadastradas</h1>
 
     <div class="search-wrapper">
         <input type="text" id="ong-search" class="search-input" placeholder="Buscar ONG...">
@@ -19,13 +18,13 @@
 
     <div class="donor-grid">
 
-        {% for doador in doadores %}
+        {% for ong in ongs %}
         <div class="donor-card">
-            <span class="donor-badge">{{ doador.tipo_plano }}</span>
+            <span class="donor-badge">{{ ong.tipo_plano }}</span>
 
             <div class="avatar-container">
-                {% if doador.foto %}
-                <img class="donor-avatar" src="{{ doador.foto.url }}" alt="Foto de {{ doador.nome }}">
+                {% if ong.foto %}
+                <img class="donor-avatar" src="{{ ong.foto.url }}" alt="Foto de {{ ong.nome }}">
                 {% else %}
                 <img class="donor-avatar"
                     src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
@@ -35,29 +34,29 @@
                 <div class="status-indicator"></div>
             </div>
 
-            <h3 class="donor-name">{{ doador.nome }}</h3>
+            <h3 class="donor-name">{{ ong.nome }}</h3>
 
             <div class="donor-location">
-                <i class="fa-solid fa-location-dot"></i> {{ doador.cidade }}, {{ doador.estado }}
+                <i class="fa-solid fa-location-dot"></i> {{ ong.cidade }}, {{ ong.estado }}
             </div>
 
             <div class="donor-stats">
                 <div class="stat-box">
-                    <span class="stat-value">{{ doador.quantidade_campanhas }}</span>
+                    <span class="stat-value">{{ ong.quantidade_campanhas }}</span>
                     <span class="stat-label">Doações</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-value">{{ doador.valor_impacto }}</span>
+                    <span class="stat-value">{{ ong.valor_impacto }}</span>
                     <span class="stat-label">Impacto (R$)</span>
                 </div>
             </div>
 
-            <a href="{% url 'perfil-doador' doador.id %}" class="btn-action" style="text-decoration: none;">
+            <a href="{% url 'perfil-ong' ong.id %}" class="btn-action" style="text-decoration: none;">
                 Ver Linha do Tempo <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
         {% empty %}
-        <p class="no-donors">Nenhum doador cadastrado no momento.</p>
+        <p class="no-donors">Nenhuma ONG cadastrada no momento.</p>
         {% endfor %}
 
     </div>

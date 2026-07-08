@@ -151,7 +151,7 @@
 
 .campaigns-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
@@ -292,6 +292,58 @@ textarea.form-control {
     padding-left: 20px;
     min-height: 150px;
     resize: vertical;
+}
+
+@media (max-width: 992px) {
+    .hero {
+        height: auto;
+        min-height: 500px;
+        padding: 80px 0;
+    }
+
+    .hero h1 {
+        font-size: 2.3rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 25px;
+    }
+
+    .section {
+        padding: 50px 0;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .campaigns-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 15px;
+    }
 }
 
 .contact-form-container .btn {

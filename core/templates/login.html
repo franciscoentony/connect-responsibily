@@ -23,14 +23,16 @@
 
         <label for="{{ form.username.id_for_label }}">Nome de Usuário</label>
         <div class="input">
+            <i class="fa-solid fa-user input-icon"></i>
             {% render_field form.username placeholder="Digite seu usuário" %}
         </div>
 
         <label for="{{ form.password.id_for_label }}">Senha</label>
         <div class="input">
+            <i class="fa-solid fa-lock input-icon"></i>
             {% render_field form.password placeholder="Digite sua senha" %}
-            <button type="button">
-                Ver
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Visualizar senha">
+                <i class="fa-regular fa-eye"></i>
             </button>
         </div>
         <a href="" class="normal-link">Esqueceu a Senha?</a>
@@ -38,4 +40,24 @@
         <button type="submit" class="primary-link" style="height: 3rem; cursor: pointer;">Entrar</button>
     </form>
 </main>
+
+{% block script %}
+<script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const inputDiv = this.closest('.input');
+            const input = inputDiv.querySelector('input');
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye';
+            }
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}

@@ -29,8 +29,37 @@
     {% block content %}
     {% endblock %}
 
-
     {% include 'footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    navMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (navMenu.classList.contains('active')) {
+                        icon.className = 'fa-solid fa-xmark';
+                    } else {
+                        icon.className = 'fa-solid fa-bars';
+                    }
+                });
+
+                // Close menu if clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.className = 'fa-solid fa-bars';
+                    }
+                });
+            }
+        });
+    </script>
+    {% block script %}{% endblock %}
 </body>
 
 </html>

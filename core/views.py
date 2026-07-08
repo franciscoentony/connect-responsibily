@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Campanha, Usuario
+from .models import Campanha, Usuario, ImagemCampanha
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .forms import CampanhaForm, UsuarioCadastroForm, EditarPerfilForm
 from django.contrib.auth.forms import AuthenticationForm
@@ -19,6 +19,7 @@ def cadastro(request):
             return redirect('dashboard')
     else:
         form = UsuarioCadastroForm()
+    return render(request, 'cadastro.html')
         
         
 def ong_required(view_func):
@@ -69,16 +70,22 @@ def ListarCampanhas(request):
 @login_required
 @ong_required
 def CadastrarCampanha(request):
-    form = CampanhaForm(request.POST or None)
+    form = CampanhaForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        # Intercepta o salvamento automatico
         campanha = form.save(commit=False)
         campanha.fk_iddoador = request.user
-        
         campanha.save()
-        return redirect('registro-campanha')
+        
+        imagens_galeria = request.FILES.getlist('imagens_galeria')
+        for imagem in imagens_galeria:
+            ImagemCampanha.objects.create(
+                fk_idcampanha=campanha,
+                imagem=imagem
+            )
+            
+        return redirect('registro-campanhas')
     context = {
-        'form':form
+        'form': form
     }
     return render(request, 'private/cadastrar_campanha.html', context)
 
@@ -111,12 +118,21 @@ def RemoverCampanha(request, id):
     
 @login_required
 def ListarDoadores(request):
-    usuario = Usuario.objects.all()
+    doadores = Usuario.objects.filter(tipo_perfil='DOADOR')
     context = {
-        "usuario": usuario,
+        "doadores": doadores,
     }
     
     return render(request, 'private/doadores.html', context)
+
+@login_required
+def ListarOngs(request):
+    ongs = Usuario.objects.filter(tipo_perfil='ONG')
+    context = {
+        "ongs": ongs,
+    }
+    
+    return render(request, 'private/ongs.html', context)
 
 @login_required
 def PerfilDoador(request, id):
@@ -125,6 +141,14 @@ def PerfilDoador(request, id):
         'usuario': usuario,
     }
     return render(request, 'private/perfil.html', context)
+
+@login_required
+def PerfilOng(request, id):
+    ong = get_object_or_404(Usuario, pk=id)
+    context = {
+        'ong': ong,
+    }
+    return render(request, 'private/perfil_ong.html', context)
 
 @login_required
 def MeuPerfil(request):

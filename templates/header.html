@@ -4,16 +4,23 @@
         <a href="{% url 'home' %}" class="logo">
             <img src="{% static 'assets/img/co-roxo.png' %}" alt="logo" width="80">
         </a>
+        <button id="menu-toggle" class="menu-toggle-btn" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
         <ul class="nav-menu">
             <li><a href="#" class="nav-link">Início</a></li>
             <li><a href="#quem-somos" class="nav-link">Quem somos?</a></li>
             <li><a href="#como-funciona" class="nav-link">Como funciona</a></li>
             <li><a href="#campanhas" class="nav-link">Campanhas</a></li>
             <li><a href="#contato" class="nav-link">Contato</a></li>
+            {% if not user.is_authenticated %}
+            <li class="mobile-only"><a href="{% url 'login' %}" class="nav-link login-mobile">Entrar</a></li>
+            <li class="mobile-only"><a href="{% url 'cadastro' %}" class="nav-link btn-primary-mobile">Cadastrar</a></li>
+            {% endif %}
         </ul>
         {% if user.is_authenticated %}
         <div class="user-profile">
-            <a href="{% url 'meu-perfil' %}" class="btn-profile"">
+            <a href="{% url 'meu-perfil' %}" class="btn-profile">
                 <span class="user-name">Olá, <strong>{{ user.nome }}</strong></span>
 
                 {% if user.foto %}

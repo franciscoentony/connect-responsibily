@@ -38,6 +38,7 @@
 
         <label for="{{ form.username.id_for_label }}">Nome de Usuário</label>
         <div class="input">
+            <i class="fa-solid fa-user input-icon"></i>
             {% render_field form.username placeholder="Nome de usuário" %}
         </div>
         {% if form.username.errors %}
@@ -46,6 +47,7 @@
 
         <label for="{{ form.nome.id_for_label }}">Nome Completo</label>
         <div class="input">
+            <i class="fa-solid fa-id-card input-icon"></i>
             {% render_field form.nome placeholder="Nome" %}
         </div>
         {% if form.nome.errors %}
@@ -54,6 +56,7 @@
 
         <label for="{{ form.email.id_for_label }}">Email</label>
         <div class="input">
+            <i class="fa-solid fa-envelope input-icon"></i>
             {% render_field form.email placeholder="Email" %}
         </div>
         {% if form.email.errors %}
@@ -62,6 +65,7 @@
 
         <label for="{{ form.cidade.id_for_label }}">Cidade</label>
         <div class="input">
+            <i class="fa-solid fa-city input-icon"></i>
             {% render_field form.cidade placeholder="Cidade" %}
         </div>
         {% if form.cidade.errors %}
@@ -70,6 +74,7 @@
 
         <label for="{{ form.estado.id_for_label }}">Estado (Sigla)</label>
         <div class="input">
+            <i class="fa-solid fa-map-location-dot input-icon"></i>
             {% render_field form.estado placeholder="RN" max_length="2" %}
         </div>
         {% if form.estado.errors %}
@@ -78,6 +83,7 @@
 
         <label for="{{ form.foto.id_for_label }}">Foto de Perfil</label>
         <div class="input">
+            <i class="fa-solid fa-image input-icon"></i>
             {% render_field form.foto %}
         </div>
         {% if form.foto.errors %}
@@ -86,8 +92,11 @@
 
         <label for="{{ form.password1.id_for_label }}">Senha</label>
         <div class="input">
+            <i class="fa-solid fa-lock input-icon"></i>
             {% render_field form.password1 placeholder="Digite uma senha" %}
-            <button type="button">Ver</button>
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Visualizar senha">
+                <i class="fa-regular fa-eye"></i>
+            </button>
         </div>
         {% if form.password1.errors %}
             <span style="color: red; font-size: 0.8rem;">{{ form.password1.errors.0 }}</span>
@@ -95,8 +104,11 @@
 
         <label for="{{ form.password2.id_for_label }}">Confirme sua Senha</label>
         <div class="input">
+            <i class="fa-solid fa-lock input-icon"></i>
             {% render_field form.password2 placeholder="Repita sua senha" %}
-            <button type="button">Ver</button>
+            <button type="button" class="toggle-password" tabindex="-1" aria-label="Visualizar senha">
+                <i class="fa-regular fa-eye"></i>
+            </button>
         </div>
         {% if form.password2.errors %}
             <span style="color: red; font-size: 0.8rem;">{{ form.password2.errors.0 }}</span>
@@ -106,4 +118,24 @@
         <button type="submit" class="primary-link" style="height: 3rem; cursor: pointer;">Cadastrar-se</button>
     </form>
 </main>
+
+{% block script %}
+<script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const inputDiv = this.closest('.input');
+            const input = inputDiv.querySelector('input');
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye';
+            }
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}
