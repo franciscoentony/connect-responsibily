@@ -34,6 +34,15 @@ class ImagemCampanha(models.Model):
         managed = True
         db_table = 'ImagemCampanha'
 
+class AtualizacaoCampanha(models.Model):
+    campanha = models.ForeignKey('Campanha', on_delete=models.CASCADE, related_name='atualizacoes')
+    texto = models.TextField()
+    data_atualizacao = models.DateField(auto_now_add=True)
+    imagem = models.ImageField(upload_to='campanhas/atualizacoes/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['-data_atualizacao']
+
 class Usuario(AbstractUser):
     OPCOES_PLANO = [
         ('PADRAO', 'Padrão'),

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Campanha, Usuario, ImagemCampanha
+from .models import Campanha, Usuario, ImagemCampanha, AtualizacaoCampanha
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .forms import CampanhaForm, UsuarioCadastroForm, EditarPerfilForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from functools import wraps
+import json
 
 def home(request):
     return render(request, 'index.html')
@@ -56,7 +57,30 @@ def logout(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'private/dashboard.html')
+    campanhas_ativas = Campanha.objects.filter(fk_iddoador=request.user)
+    campanhas_ativas_count = campanhas_ativas.count()
+    
+    total_doadores = Usuario.objects.filter(tipo_perfil='DOADOR').count()
+    total_doacoes = "0,00"
+    
+    meses_labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul']
+    meses_valores = [12000, 19000, 15000, 25000, 22000, 30000, 50000]
+    
+    categorias_labels = ['Alimentos', 'Saúde', 'Educação', 'Outros']
+    categorias_valores = [40, 25, 20, 15]
+    
+    context = {
+        'campanhas_ativas': campanhas_ativas,
+        'total_doacoes': total_doacoes,
+        'total_doadores': total_doadores,
+        'campanhas_ativas_count': campanhas_ativas_count,
+        'chart_meses_labels': json.dumps(meses_labels),
+        'chart_meses_valores': json.dumps(meses_valores),
+        'chart_categorias_labels': json.dumps(categorias_labels),
+        'chart_categorias_valores': json.dumps(categorias_valores),
+    }
+    
+    return render(request, 'private/dashboard.html', context)
 
 @login_required
 def ListarCampanhas(request):
@@ -91,7 +115,7 @@ def CadastrarCampanha(request):
 
 @login_required
 def EditarCampanha(request, id):
-    campanha = campanha.objects.get(pk=id)
+    campanha = Campanha.objects.get(pk=id)
     
     if campanha.fk_iddoador != request.user:
         return redirect('registro-campanhas')
@@ -111,10 +135,10 @@ def RemoverCampanha(request, id):
     campanha = Campanha.objects.get(pk=id)
     
     if campanha.fk_iddoador != request.user:
-        return redirect('registro-campanha')
+        return redirect('dashboard')
     
     campanha.delete()
-    return redirect('registro-campanha')
+    return redirect('dashboard')
     
 @login_required
 def ListarDoadores(request):
@@ -174,3 +198,38 @@ def DetalheCampanha(request, id):
         "campanha": campanha,
     }
     return render(request, 'private/detalhes_campanha.html', context)
+
+@login_required
+def adicionar_atualizacao(request, idcampanha):
+    campanha = get_object_or_404(Campanha, pk=idcampanha)
+    if campanha.fk_iddoador == request.user and request.method == 'POST':
+        texto = request.POST.get('texto')
+        imagem = request.FILES.get('imagem')
+        if texto:
+            AtualizacaoCampanha.objects.create(
+                campanha=campanha,
+                texto=texto,
+                imagem=imagem
+            )
+    return redirect('detalhe-campanha', id=campanha.idcampanha)
+
+@login_required
+def editar_atualizacao(request, id_atualizacao):
+    atualizacao = get_object_or_404(AtualizacaoCampanha, pk=id_atualizacao)
+    if atualizacao.campanha.fk_iddoador == request.user and request.method == 'POST':
+        texto = request.POST.get('texto')
+        imagem = request.FILES.get('imagem')
+        if texto:
+            atualizacao.texto = texto
+            if imagem:
+                atualizacao.imagem = imagem
+            atualizacao.save()
+    return redirect('detalhe-campanha', id=atualizacao.campanha.idcampanha)
+
+@login_required
+def remover_atualizacao(request, id_atualizacao):
+    atualizacao = get_object_or_404(AtualizacaoCampanha, pk=id_atualizacao)
+    idcampanha = atualizacao.campanha.idcampanha
+    if atualizacao.campanha.fk_iddoador == request.user:
+        atualizacao.delete()
+    return redirect('detalhe-campanha', id=idcampanha)

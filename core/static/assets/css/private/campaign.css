@@ -311,3 +311,254 @@
         gap: 0.75rem;
     }
 }
+/* --- AÇÕES DE ATUALIZAÇÃO (EDITAR / REMOVER) --- */
+.update-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    margin-bottom: 16px;
+}
+
+.btn-update-edit, 
+.btn-update-delete {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+/* Botão Editar */
+.btn-update-edit {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+}
+
+.btn-update-edit:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+/* Botão Remover */
+.btn-update-delete {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fee2e2;
+}
+
+.btn-update-delete:hover {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* --- FORMULÁRIO DE EDIÇÃO CUSTOMIZADO --- */
+.edit-form-wrapper {
+    display: none; /* Controlado pelo seu JS toggleEditForm */
+    margin-top: 14px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.custom-crud-form {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.custom-crud-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #374151;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-crud-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple, #8a2be2);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.15);
+}
+
+/* Linha inferior de ações do form */
+.form-actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+/* Input de Upload Customizado */
+.custom-file-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none; /* Esconde o input nativo feio */
+}
+
+/* Botão de Envio (Salvar) */
+.btn-crud-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-purple, #8a2be2);
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-crud-submit:hover {
+    background-color: #7223bd; /* Tom ligeiramente mais escuro para o hover */
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
+}
+
+.btn-crud-submit:active {
+    transform: scale(0.98);
+}
+
+/* --- AJUSTES DO FORMULÁRIO PRINCIPAL DE POSTAGEM --- */
+.create-update-wrapper {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+/* Card principal com bordas bem arredondadas */
+.main-create-form {
+    background: #ffffff !important; 
+    border: 1px solid #e5e7eb !important;
+    border-radius: 1rem !important; /* 16px */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* --- FORMULÁRIO DE EDIÇÃO E CRIAÇÃO CUSTOMIZADO --- */
+.custom-crud-form {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem; /* 16px */
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.custom-crud-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem; /* 12px */
+    font-family: inherit;
+    font-size: 14px;
+    color: #374151;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-crud-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple, #8a2be2);
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.15);
+}
+
+/* Linha inferior de ações do form */
+.form-actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+/* Input de Upload Customizado */
+.custom-file-upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem; /* 12px */
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.custom-file-upload:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+/* Botão de Envio (Salvar / Publicar) */
+.btn-crud-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-purple, #8a2be2);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0.75rem; /* 12px */
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-crud-submit:hover {
+    background-color: #7223bd;
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
+}
+
+.btn-crud-submit:active {
+    transform: scale(0.98);
+}

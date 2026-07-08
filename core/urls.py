@@ -13,6 +13,9 @@ urlpatterns = [
     path('dashboard/cadastrar-campanha/', CadastrarCampanha, name="cadastrar-campanha"),
     path('dashboard/editar-companha/<int:id>', EditarCampanha, name="editar-campanha"),
     path('dashboard/remover-campanha/<int:id>', RemoverCampanha, name="remover-campanha"),
+    path('dashboard/registro-campanhas/<int:idcampanha>/atualizacao/adicionar/', adicionar_atualizacao, name='adicionar-atualizacao'),
+    path('atualizacao/<int:id_atualizacao>/editar/', editar_atualizacao, name='editar-atualizacao'),
+    path('atualizacao/<int:id_atualizacao>/remover/', remover_atualizacao, name='remover-atualizacao'),
     
     path('dashboard/ongs/', ListarOngs, name="ongs"),
     path('dashboard/ongs/<int:id>/', PerfilOng, name='perfil-ong'),

@@ -19,6 +19,132 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     {% block style %}{% endblock %}
+
+    <style>
+        .user-profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 1. Remove totalmente o fundo, bordas e paddings do botão de gatilho */
+        #main-header .user-profile-dropdown .profile-trigger {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            cursor: pointer;
+            color: var(--text-dark) !important;
+        }
+
+        .profile-trigger .user-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .profile-trigger .chevron {
+            font-size: 0.75rem;
+            color: #777;
+            transition: transform 0.2s ease;
+        }
+
+        /* Rotaciona a seta quando o menu estiver ativo */
+        #main-header .user-profile-dropdown.active .profile-trigger .chevron {
+            transform: rotate(180deg);
+            color: var(--primary-purple);
+        }
+
+        /* 2. Menu Suspenso - Ajuste de especificidade para FORÇAR a aparição */
+        #main-header .user-profile-dropdown .profile-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            background-color: #ffffff !important;
+            /* Fundo do menu limpo e branco */
+            border: 1px solid #e5e7eb !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+            min-width: 200px;
+            display: none;
+            /* Escondido por padrão */
+            flex-direction: column;
+            padding: 6px !important;
+            z-index: 1000;
+            transform-origin: top right;
+            animation: dropdownFadeIn 0.15s ease-out forwards;
+        }
+
+        /* Seletor corrigido com o ID do header para garantir que mude para flex */
+        #main-header .user-profile-dropdown.active .profile-dropdown-menu {
+            display: flex !important;
+        }
+
+        /* 3. Estilização interna dos links do menu */
+        #main-header .profile-dropdown-menu .profile-dropdown-item {
+            background: transparent !important;
+            color: #374151 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 10px 14px !important;
+            border-radius: 0.5rem !important;
+            font-size: 0.9rem !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Efeito de hover suave ao passar o mouse nas opções */
+        #main-header .profile-dropdown-menu .profile-dropdown-item:hover {
+            background-color: #f3f4f6 !important;
+            color: var(--primary-purple) !important;
+        }
+
+        #main-header .profile-dropdown-menu .profile-dropdown-item i {
+            font-size: 1rem;
+            width: 18px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        #main-header .profile-dropdown-menu .profile-dropdown-item:hover i {
+            color: var(--primary-purple);
+        }
+
+        /* Link de Sair customizado em vermelho sutil */
+        #main-header .profile-dropdown-menu .profile-dropdown-item.logout-item {
+            color: #dc2626 !important;
+            border-top: 1px solid #f3f4f6 !important;
+            margin-top: 4px;
+        }
+
+        #main-header .profile-dropdown-menu .profile-dropdown-item.logout-item:hover {
+            background-color: #fef2f2 !important;
+            color: #b91c1c !important;
+        }
+
+        #main-header .profile-dropdown-menu .profile-dropdown-item.logout-item:hover i {
+            color: #b91c1c;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -67,7 +193,7 @@
                     <a href="#">
                         <svg style="width: 1.5rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                             <path fill="rgb(255, 255, 255)"
-                                d="M259.1 73.5C262.1 58.7 275.2 48 290.4 48L350.2 48C365.4 48 378.5 58.7 381.5 73.5L396 143.5C410.1 149.5 423.3 157.2 435.3 166.3L503.1 143.8C517.5 139 533.3 145 540.9 158.2L570.8 210C578.4 223.2 575.7 239.8 564.3 249.9L511 297.3C511.9 304.7 512.3 312.3 512.3 320C512.3 327.7 511.8 335.3 511 342.7L564.4 390.2C575.8 400.3 578.4 417 570.9 430.1L541 481.9C533.4 495 517.6 501.1 503.2 496.3L435.4 473.8C423.3 482.9 410.1 490.5 396.1 496.6L381.7 566.5C378.6 581.4 365.5 592 350.4 592L290.6 592C275.4 592 262.3 581.3 259.3 566.5L244.9 496.6C230.8 490.6 217.7 482.9 205.6 473.8L137.5 496.3C123.1 501.1 107.3 495.1 99.7 481.9L69.8 430.1C62.2 416.9 64.9 400.3 76.3 390.2L129.7 342.7C128.8 335.3 128.4 327.7 128.4 320C128.4 312.3 128.9 304.7 129.7 297.3L76.3 249.8C64.9 239.7 62.3 223 69.8 209.9L99.7 158.1C107.3 144.9 123.1 138.9 137.5 143.7L205.3 166.2C217.4 157.1 230.6 149.5 244.6 143.4L259.1 73.5zM320.3 400C364.5 399.8 400.2 363.9 400 319.7C399.8 275.5 363.9 239.8 319.7 240C275.5 240.2 239.8 276.1 240 320.3C240.2 364.5 276.1 400.2 320.3 400z" />
+                                d="M259.1 73.5C262.1 58.7 275.2 48 290.4 48L350.2 48C365.4 48 378.5 58.7 381.5 73.5L396 143.5C410.1 149.5 423.3 157.2 435.3 166.3L503.1 143.8C517.5 139 533.3 145 540.9 158.2L570.8 210C578.4 223.2 575.7 239.8 564.3 249.9L511 297.3C511.9 304.7 512.3 312.3 512.3 320C512.3 327.7 511.8 335.3 511 342.7L564.4 390.2C575.8 400.3 578.4 417 570.9 430.1L541 481.9C533.4 495 517.6 501.1 503.2 496.3L435.4 473.8C423.3 482.9 410.1 490.5 396.1 496.6L381.7 566.5C378.6 581.4 365.5 592 350.4 592L290.6 592C275.4 592 262.3 581.3 259.3 566.5L244.9 496.6C230.8 490.6 217.7 482.9 205.6 473.8L137.5 496.3C123.1 501.1 107.3 495.1 99.7 481.9L69.8 430.1C62.2 416.9 64.9 400.3 76.3 390.2L129.7 342.7C128.8 335.3 128.4 327.7 128.4 320C128.4 312.3 128.9 304.7 128.9 297.3L76.3 249.8C64.9 239.7 62.3 223 69.8 209.9L99.7 158.1C107.3 144.9 123.1 138.9 137.5 143.7L205.3 166.2C217.4 157.1 230.6 149.5 244.6 143.4L259.1 73.5zM320.3 400C364.5 399.8 400.2 363.9 400 319.7C399.8 275.5 363.9 239.8 319.7 240C275.5 240.2 239.8 276.1 240 320.3C240.2 364.5 276.1 400.2 320.3 400z" />
                         </svg>
                         Configurações
                     </a>
@@ -89,8 +215,8 @@
                 {% endif %}
 
                 {% if user.is_authenticated %}
-                <div class="user-profile" style="display: flex; align-items: center; gap: 10px;">
-                    <a href="{% url 'meu-perfil' %}" class="btn-profile">
+                <div class="user-profile-dropdown" id="userProfileDropdown">
+                    <button class="profile-trigger" type="button" aria-haspopup="true" aria-expanded="false">
                         <span class="user-name">Olá, <strong>{{ user.nome }}</strong></span>
 
                         {% if user.foto %}
@@ -98,14 +224,21 @@
                             style="width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover;">
                         {% else %}
                         <div class="avatar-placeholder"
-                            style="width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #9333ea; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                            style="width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--primary-purple); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
                             {{ user.nome|slice:":1" }}
                         </div>
                         {% endif %}
-                    </a>
+                        <i class="fa-solid fa-chevron-down chevron"></i>
+                    </button>
 
-                    <a href="{% url 'logout' %}"
-                        style="background-color: #c53030; font-weight: 500; text-decoration: none; margin-left: 10px;">Sair</a>
+                    <div class="profile-dropdown-menu">
+                        <a href="{% url 'meu-perfil' %}" class="profile-dropdown-item">
+                            <i class="fa-regular fa-user"></i> Exibir meu perfil
+                        </a>
+                        <a href="{% url 'logout' %}" class="profile-dropdown-item logout-item">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair da conta
+                        </a>
+                    </div>
                 </div>
                 {% else %}
                 <a href="{% url 'login' %}" class="primary-link">Entrar</a>
@@ -118,13 +251,14 @@
 
         {% include 'footer.html' %}
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Lógica do Sidebar Existente
             const toggleBtn = document.getElementById('toggle-sidebar');
             const sidebar = document.getElementById('sidebar');
 
             if (toggleBtn && sidebar) {
-                // Create backdrop overlay
                 const backdrop = document.createElement('div');
                 backdrop.className = 'sidebar-backdrop';
                 document.body.appendChild(backdrop);
@@ -139,7 +273,6 @@
                     backdrop.classList.remove('active');
                 });
 
-                // Close sidebar on link click if on mobile
                 const sidebarLinks = sidebar.querySelectorAll('nav a');
                 sidebarLinks.forEach(link => {
                     link.addEventListener('click', function () {
@@ -150,10 +283,30 @@
                     });
                 });
             }
+
+            // NOVA: Lógica de Interação do Dropdown de Perfil
+            const profileDropdown = document.getElementById('userProfileDropdown');
+            if (profileDropdown) {
+                const trigger = profileDropdown.querySelector('.profile-trigger');
+
+                // Alterna a abertura do menu ao clicar no gatilho
+                trigger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const isActive = profileDropdown.classList.toggle('active');
+                    trigger.setAttribute('aria-expanded', isActive);
+                });
+
+                // Fecha o menu automaticamente caso clique fora dele
+                document.addEventListener('click', function (e) {
+                    if (!profileDropdown.contains(e.target)) {
+                        profileDropdown.classList.remove('active');
+                        trigger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
         });
     </script>
     {% block script %}
-
     {% endblock %}
 </body>
 

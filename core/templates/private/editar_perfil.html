@@ -5,29 +5,317 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'assets/css/private/forms.css' %}">
+<style>
+    /* --- Container Geral da Página (Centralizado) --- */
+    .form-page-container {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centraliza o card horizontalmente */
+        justify-content: center;
+        gap: 1.5rem;
+        background-color: var(--bg-gray);
+        min-height: calc(100vh - 70px);
+    }
+
+    .form-page-header {
+        width: 100%;
+        max-width: 700px;
+        text-align: left;
+    }
+
+    .form-page-header h2 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* --- Card do Formulário --- */
+    .form-card {
+        background-color: #ffffff;
+        border-radius: 1rem;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-sm);
+        max-width: 700px;
+        width: 100%;
+    }
+
+    /* --- Upload de Foto Interativo (Sem Bordas e Sem Sombras) --- */
+    .avatar-upload-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding-bottom: 2rem;
+    }
+
+    .avatar-preview-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        background-color: var(--bg-gray);
+        transition: var(--transition);
+        /* Removidos: traçado e sombra */
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .avatar-preview-wrapper:hover {
+        transform: scale(1.02);
+    }
+
+    .avatar-preview-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .avatar-preview-fallback {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: var(--primary-purple);
+        background-color: rgba(138, 43, 226, 0.08);
+    }
+
+    /* Hover Overlay por cima do Avatar */
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .avatar-preview-wrapper:hover .avatar-overlay {
+        opacity: 1;
+    }
+
+    .avatar-upload-section p {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin: 0;
+    }
+
+    /* --- Grid de Inputs --- */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .info-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .info-group label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-group input,
+    .info-group select,
+    .info-group textarea {
+        width: 100%;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-dark);
+        background-color: var(--bg-gray);
+        padding: 12px 14px;
+        border-radius: 0.75rem;
+        border: 1px solid #e5e7eb;
+        box-sizing: border-box;
+        transition: var(--transition);
+    }
+
+    .info-group input:focus,
+    .info-group select:focus,
+    .info-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-purple);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.08);
+    }
+
+    /* --- Rodapé de Botões --- */
+    .form-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 2.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        padding-top: 1.5rem;
+    }
+
+    .btn-submit {
+        background-color: var(--primary-purple);
+        color: var(--text-light) !important;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 1rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-submit:hover {
+        background-color: var(--purple-hover);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-cancel {
+        background-color: #e5e7eb;
+        color: #4b5563 !important;
+        text-decoration: none !important;
+        padding: 12px 24px;
+        border-radius: 1rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-block;
+    }
+
+    .btn-cancel:hover {
+        background-color: #d1d5db;
+    }
+
+    .field-error {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: 4px;
+    }
+
+    @media (max-width: 768px) {
+        .form-page-container { padding: 1rem; }
+        .form-card { padding: 1.5rem; }
+        .form-actions { flex-direction: column; width: 100%; }
+        .btn-submit, .btn-cancel { width: 100%; text-align: center; justify-content: center; }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<main style="padding: 2rem;">
-    <h2>Alterar Meus Dados</h2>
+<main class="form-page-container">
     
-    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-top: 1rem; max-width: 600px;">
-        <form method="POST" enctype="multipart/form-data">
+    <div class="form-page-header">
+        <h2>Alterar Meus Dados</h2>
+    </div>
+    
+    <div class="form-card">
+        <form method="POST" enctype="multipart/form-data" id="profile-form">
             {% csrf_token %}
             
-            <div style="margin-bottom: 1.5rem;">
-                {{ form.as_p }}
+            <div class="avatar-upload-section">
+                <div class="avatar-preview-wrapper" id="avatar-clickable-zone" title="Clique para alterar a foto">
+                    <div id="avatar-display-area">
+                        {% if user.foto %}
+                            <img id="avatar-img" src="{{ user.foto.url }}" alt="Foto de Perfil">
+                        {% else %}
+                            <div class="avatar-preview-fallback">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="avatar-overlay">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Alterar Foto</span>
+                    </div>
+                </div>
+                <p>Clique no avatar para escolher uma imagem</p>
+                
+                <div style="display: none;" id="hidden-file-input-container">
+                    {{ form.foto }}
+                </div>
+                {% if form.foto.errors %}
+                    <div class="field-error">{{ form.foto.errors }}</div>
+                {% endif %}
             </div>
 
-            <div style="display: flex; gap: 10px; margin-top: 2rem;">
-                <button type="submit" style="background: #9333ea; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
-                    Salvar Alterações
+            <div class="info-grid">
+                {% for field in form %}
+                    {% if field.name != 'foto' %}
+                        <div class="info-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="field-error">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fa-regular fa-floppy-disk"></i> Salvar Alterações
                 </button>
-                <a href="{% url 'meu-perfil' %}" style="background: #e5e7eb; color: #374151; padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 600; text-decoration: none; display: inline-block;">
+                <a href="{% url 'meu-perfil' %}" class="btn-cancel">
                     Cancelar
                 </a>
             </div>
         </form>
     </div>
 </main>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const clickableZone = document.getElementById('avatar-clickable-zone');
+        const displayArea = document.getElementById('avatar-display-area');
+        
+        // Seletor cirúrgico para encontrar qualquer input file dentro do container oculto
+        const fileInput = document.querySelector('#hidden-file-input-container input[type="file"]');
+
+        if (clickableZone && fileInput) {
+            // Vincula o clique do círculo do avatar ao input oculto
+            clickableZone.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            // Atualiza o preview da imagem em tempo real assim que o usuário escolhe o arquivo
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        displayArea.innerHTML = `<img id="avatar-img" src="${e.target.result}" alt="Preview da Foto">`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}
