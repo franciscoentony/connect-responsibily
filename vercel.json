@@ -1,10 +1,6 @@
 {
+  "version": 2,
   "builds": [
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "staticfiles" }
-    },
     {
       "src": "projeto_cr/wsgi.py",
       "use": "@vercel/python",
@@ -14,7 +10,8 @@
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "dest": "projeto_cr/wsgi.py"
     },
     {
       "src": "/(.*)",
