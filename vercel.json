@@ -1,6 +1,10 @@
 {
   "builds": [
     {
+      "src": "build_files.sh",
+      "use": "@vercel/python"
+    },
+    {
       "src": "projeto_cr/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb" }
