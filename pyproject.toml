@@ -7,6 +7,7 @@ dependencies = [
     "django-environ",
     "django-widget-tweaks>=1.5.1",
     "gunicorn",
+    "pillow>=12.3.0",
     "psycopg2-binary",
 ]
 
