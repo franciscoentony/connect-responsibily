@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "livereload",
     "django.contrib.staticfiles",
     "widget_tweaks",
     "core",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ["livereload"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -56,9 +58,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "livereload.middleware.LiveReloadScript",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += ["livereload.middleware.LiveReloadScript"]
 
 ROOT_URLCONF = "projeto_cr.urls"
 

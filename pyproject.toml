@@ -6,7 +6,16 @@ dependencies = [
     "django>=5.0",
     "django-environ",
     "gunicorn",
-    # ...
+    "psycopg2-binary",
+]
+
+[dependency-groups]
+dev = [
+    "livereload",
+    "black",
+    "isort",
+    "ruff",
+    "pre-commit",
 ]
 
 [tool.black]
